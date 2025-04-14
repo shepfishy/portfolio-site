@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shepfish - Blog</title>
+    <!-- Using Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            /* Light mode */
+            --bg-light: #f8f9fa;
+            --text-light: #212529;
+            --primary-light: #6d5dd1;
+            --secondary-light: #a095e5;
+            --accent-light: #ff7b72;
+            --card-bg-light: rgba(255, 255, 255, 0.8); /* Slightly more opaque for blog posts */
+            --card-border-light: rgba(0, 0, 0, 0.1);
+            --sidebar-bg-light: rgba(240, 240, 245, 0.8);
+            --shadow-light: rgba(0, 0, 0, 0.1);
+
+            /* Dark mode */
+            --bg-dark: #1a1b26;
+            --text-dark: #a9b1d6;
+            --primary-dark: #bb9af7;
+            --secondary-dark: #7aa2f7;
+            --accent-dark: #ff7b72;
+            --card-bg-dark: rgba(36, 40, 59, 0.8); /* Slightly more opaque for blog posts */
+            --card-border-dark: rgba(255, 255, 255, 0.1);
+            --sidebar-bg-dark: rgba(26, 27, 38, 0.85);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+
+            /* Default to dark mode */
+            --bg: var(--bg-dark);
+            --text: var(--text-dark);
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --card-bg: var(--card-bg-dark);
+            --card-border: var(--card-border-dark);
+            --sidebar-bg: var(--sidebar-bg-dark);
+            --shadow: var(--shadow-dark);
+
+            --sidebar-width: 250px;
+            --transition-speed: 0.4s;
+            --border-radius: 12px;
+        }
+
+        .light-mode {
+            --bg: var(--bg-light);
+            --text: var(--text-light);
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --card-bg: var(--card-bg-light);
+            --card-border: var(--card-border-light);
+            --sidebar-bg: var(--sidebar-bg-light);
+            --shadow: var(--shadow-light);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--sidebar-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            width: 100%;
+            margin-bottom: auto; /* Pushes theme toggle down */
+        }
+
+        .nav-links li {
+            margin-bottom: 1rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+        }
+
+        .nav-links a i {
+            margin-right: 0.8rem;
+            width: 20px; /* Align icons */
+            text-align: center;
+            color: var(--secondary);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: var(--primary);
+            color: white; /* Ensure text is readable on primary bg */
+            transform: translateX(5px);
+        }
+
+        .nav-links a:hover i,
+        .nav-links a.active i {
+            color: white;
+        }
+
+        #theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.7rem;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+            margin-top: 2rem;
+            margin-left: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: rotate(15deg) scale(1.1);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area - Adjusted */
+        #main-content {
+            /* margin-left: var(--sidebar-width); REMOVED */
+            padding: 3rem; /* Keep general padding */
+            width: 100%; /* Occupy full width */
+            max-width: 1100px; /* Optional: Set a max-width for very wide screens */
+            margin: 0 auto; /* Center content container if max-width is used */
+            min-height: 100vh; /* Adjust min-height if needed */
+        }
+
+        #blog-section {
+            padding-top: 1rem; /* Reduced top padding within section */
+            text-align: center; /* Center align section content (including title) */
+        }
+
+
+        .markdown-content.expanded {
+            max-height: none; /* Remove height restriction */
+            -webkit-mask-image: none; /* Remove mask */
+            mask-image: none; /* Remove mask */
+        }
+
+        .markdown-content.expanded::after {
+            display: none; /* Hide the fade overlay */
+        }
+
+        /* Optional: Style for button after expansion */
+        .blog-post a.read-more.hidden {
+            display: none; /* Hide button after click */
+        }
+
+        .markdown-content img {
+            max-width: 65%; /* Make image responsive within its container */
+            width: auto;     /* Allow image to scale naturally */
+            height: auto;    /* Maintain aspect ratio */
+            display: block;  /* Prevent extra space below image */
+            margin-left: 1.5rem; /* move image and add vertical space */
+            border-radius: var(--border-radius); /* Optional styling */
+            box-shadow: 0 4px 10px var(--shadow); /* Optional styling */
+        }
+
+
+        .markdown-content {
+            /* Limit height to ~5 lines (adjust '8em' based on font/line-height) */
+            max-height: 8.5em;
+            overflow: hidden;
+            position: relative; /* Needed for the ::after pseudo-element */
+            margin-bottom: 1rem; /* Space before "Read More" */
+            /* Optional Masking - adjust percentage if used */
+            /* -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); */
+            /* mask-image: linear-gradient(to bottom, black 60%, transparent 100%); */
+        }
+
+        .markdown-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            /* Adjust height of the fade gradient */
+            height: 4em;
+            background: linear-gradient(
+                to bottom,
+                hsla(0, 0%, 100%, 0) 0%, /* Start transparent */
+                var(--card-bg) 85%  /* Fade in card background towards the bottom */
+            );
+            pointer-events: none;
+            /* Ensure this is visible by default */
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem; /* Increased bottom margin */
+            color: var(--primary);
+            position: relative;
+            display: inline-block; /* Changed from block to allow centering */
+            text-align: center; /* Ensure text itself is centered */
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; /* Adjusted position */
+            left: 50%; /* Center the starting point */
+            transform: translateX(-50%); /* Shift left by half its own width */
+            width: 80px; /* Adjusted width for better centering appearance */
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+                /* ... existing styles ... */
+
+        /* Remove previous expand/hidden logic if desired, or keep for non-JS fallback */
+        /* .markdown-content.expanded { ... } */
+        /* .markdown-content.expanded::after { ... } */
+        /* .blog-post a.read-more.hidden { ... } */
+
+
+        /* Reading View Styles */
+        .blog-post.reading-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            z-index: 1001; /* Ensure it's above other content */
+            overflow-y: auto; /* Allow scrolling within the post */
+            padding: 4rem 2rem 2rem 2rem; /* Adjust padding for reading */
+            margin: 0; /* Reset margin */
+            border-radius: 0; /* Optional: Remove border-radius for full screen */
+            border: none; /* Optional: Remove border */
+            /* Ensure background is opaque */
+            background-color: var(--card-bg); /* Use the card background */
+            transform: none !important; /* Override hover transform */
+            box-shadow: none !important; /* Override hover shadow */
+            opacity: 1; /* Ensure final opacity is 1 */
+            transform: none !important; /* Ensure final transform is none */
+        }
+
+        .blog-post.reading-mode .markdown-content {
+            max-height: none; /* Remove height limit */
+            mask-image: none;
+            -webkit-mask-image: none;
+        }
+
+        .blog-post.reading-mode .markdown-content::after {
+            display: none; /* Hide fade gradient */
+        }
+
+        .blog-post.reading-mode .markdown-content::after {
+            display: none; /* Hide fade gradient in reading mode */
+        }
+
+        .blog-post.reading-mode .read-more {
+            display: none;
+        }
+
+        /* Back Button Styles */
+        #back-button {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            z-index: 1002; /* Above the reading post */
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--card-border);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px var(--shadow);
+        }
+
+        #back-button:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        #back-button.hidden {
+            display: none;
+        }
+
+        /* Hide theme toggle when reading */
+        body.reading-active #theme-toggle {
+             display: none;
+        }
+        /* Hide other posts when reading (optional but cleaner) */
+        body.reading-active .blog-post:not(.reading-mode) {
+            display: none;
+        }
+        body.reading-active #page-header { /* Assuming you have a header */
+             display: none;
+        }
+         body.reading-active footer {
+             display: none;
+         }
+
+        .blog-posts-container {
+            max-width: 800px; /* Limit width for readability */
+            margin: 0 auto; /* Center the posts container */
+            text-align: left; /* Reset text alignment for posts content */
+        }
+        .blog-post {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* MODIFIED: Added opacity and transform, adjusted 'all' */
+            transition:
+                transform var(--transition-speed) ease,
+                opacity var(--transition-speed) ease,
+                box-shadow 0.3s ease,  /* Keep existing hover transitions */
+                border-color 0.3s ease; /* Keep existing hover transitions */
+            opacity: 1; /* Ensure initial opacity is set */
+            transform: scale(1); /* Ensure initial scale is set */
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .blog-post h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-post .post-meta {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .blog-post p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            opacity: 0.9;
+        }
+
+        .blog-post a.read-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .blog-post a.read-more:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+             text-align: center;
+             padding: 4rem 0 2rem 0;
+             margin-top: 4rem; /* Add space above footer */
+             border-top: 1px solid var(--card-border);
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design Adjustments */
+        @media (max-width: 1024px) {
+            :root {
+                --sidebar-width: 200px;
+            }
+            #main-content {
+                /* margin-left: 0; REMOVED */
+                width: 100%; /* Ensure width is full */
+                padding: 6rem 1.5rem 2rem 1.5rem; /* Adjust top padding if you add a fixed header later */
+                /* Or simply: padding: 2rem 1.5rem; if no fixed header */
+            }
+            .page-title {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            :root {
+                --sidebar-width: 100%; /* Full width for top bar */
+            }
+            #sidebar {
+                width: 100%;
+                height: auto; /* Auto height */
+                position: fixed; /* Change to fixed top bar */
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0.8rem 1.5rem;
+                border-right: none;
+                border-bottom: 1px solid var(--card-border);
+                align-items: center;
+            }
+            .logo {
+                margin-bottom: 0;
+                font-size: 1.5rem;
+            }
+            .nav-links {
+                display: none; /* Hide sidebar links, could implement a burger menu if needed */
+                margin-bottom: 0;
+            }
+            #theme-toggle {
+                margin-top: 0;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 6rem 1.5rem 2rem 1.5rem; /* Add top padding to clear fixed sidebar */
+            }
+            #blog-section {
+                padding-top: 1rem;
+            }
+             .page-title {
+                font-size: 2rem;
+            }
+            .blog-post {
+                padding: 1.5rem;
+            }
+            .blog-post h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">
+        <i class="fas fa-moon"></i> <!-- Initial icon -->
+    </button>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+        <!-- Blog Section -->
+        <section id="blog-section">
+            <h1 class="page-title">My Blog</h1>
+
+            <div class="blog-posts-container">
+                <!-- First Example Article -->
+                <article class="blog-post">
+                    <h2>My Homelab!</h2>
+                    <p class="post-meta">Date: Apr 13, 2025</p>
+                    <!-- Container for Markdown content -->
+                    <div class="markdown-content">
+Im making my first proper homelab! I have been wanting to do this for a *long time*, it is great to finally find the inspiration to do it.
+
+I am going to use a **Lenovo Thinkcentre m72e with an i5-3470T and 8GB of ram**. I have an upgrade CPU but im waiting for a better heatsink to arrive because the old chrummy one doesn't even have a fan or a way to remove excess heat.
+
+The CPU im upgrading to is an **i5-3750**. This processor has a higher TDP and so will require a better heatsink to keep it cool.
+
+# Current CPU
+
+![Current CPU](../assets/3470t.jpg)
+
+The plan is to install alpine linux, setup cockpit and some docker containers to run some services. I have some random old hard drives that I will use for storage.
+
+<i class="fa-regular fa-square-check"></i> Install alpine
+
+<i class="fa-regular fa-square-check"></i> Setup cockpit
+
+<i class="fa-regular fa-square"></i> Expand storage
+
+<i class="fa-regular fa-square"></i> Replace heatsink
+
+<i class="fa-regular fa-square"></i> Replace CPU
+
+# Current system specs:
+```
+shep@shepovo 
+------------ 
+OS: Debian GNU/Linux 12 (bookworm) x86_64 
+Host: 3261J1M ThinkCentre M72e 
+Kernel: 6.1.0-33-amd64 
+Packages: 1304 (dpkg) 
+Shell: bash 5.2.15 
+CPU: Intel i5-3470T (4) @ 3.600GHz 
+GPU: Intel HD Graphics 
+Memory: 7767MiB 
+```
+
+# More cpu information
+```
+Architecture:             x86_64
+  CPU op-mode(s):         32-bit, 64-bit
+  Address sizes:          36 bits physical, 48 bits virtual
+  Byte Order:             Little Endian
+CPU(s):                   4
+  On-line CPU(s) list:    0-3
+Vendor ID:                GenuineIntel
+  Model name:             Intel(R) Core(TM) i5-3470T CPU @ 2.90GHz
+    CPU family:           6
+    Model:                58
+    Thread(s) per core:   2
+    Core(s) per socket:   2
+    Socket(s):            1
+    Stepping:             9
+    CPU(s) scaling MHz:   63%
+    CPU max MHz:          3600.0000
+    CPU min MHz:          1600.0000
+    BogoMIPS:             5786.83
+    Flags:                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc
+                           arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl smx est tm2 ssse3 cx16 xtpr pdcm pcid sse
+                          4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault epb pti ssbd ibrs ibpb stibp fsgsbase smep erms xsaveopt dtherm
+                           ida arat pln pts md_clear flush_l1d
+```
+
+                    </div>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </article>
+                <button id="back-button" class="hidden" aria-label="Back to blog list">
+                    <i class="fas fa-times"></i> <!-- Close icon -->
+                </button>
+            </div>
+        </section>
+        <!-- Back Button (Initially Hidden) -->
+        <button id="back-button" class="hidden" aria-label="Back to blog list">
+            <i class="fas fa-times"></i> <!-- Close icon -->
+        </button>
+    </main>
+
+    <script src="marked.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const themeIcon = themeToggle.querySelector('i');
+            const currentYearSpan = document.getElementById('current-year');
+            const backButton = document.getElementById('back-button'); // Get back button
+            let activePost = null; // Keep track of the post in reading mode
+            let scrollPosition = 0; // To store scroll position
+
+            // --- Theme Toggling ---
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.classList.add('light-mode');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    body.classList.remove('light-mode');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            };
+
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            themeToggle.addEventListener('click', () => {
+                const newTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // --- Update Copyright Year ---
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // --- Intersection Observer & Markdown Processing ---
+            const postObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const blogPosts = document.querySelectorAll('.blog-post');
+            blogPosts.forEach(post => {
+                // Apply fade-in styles
+                post.style.opacity = 0;
+                post.style.transform = 'translateY(20px)';
+                post.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                postObserver.observe(post);
+
+                // Process Markdown Content
+                const markdownContainer = post.querySelector('.markdown-content');
+                if (markdownContainer) {
+                    const markdownText = markdownContainer.innerHTML;
+                    markdownContainer.innerHTML = marked.parse(markdownText.trim());
+                }
+            });
+
+            // --- Read More Button Functionality (Triggers Reading Mode) ---
+            const readMoreButtons = document.querySelectorAll('.read-more');
+
+            readMoreButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    const postArticle = button.closest('.blog-post');
+                    if (!postArticle || activePost) return; // Don't trigger if already reading
+
+                    activePost = postArticle; // Set the active post
+                    scrollPosition = window.pageYOffset; // Store current scroll position
+
+                    // --- TRANSITION START ---
+                    // 1. Apply initial state for transition
+                    activePost.style.opacity = '0';
+                    activePost.style.transform = 'scale(0.95)';
+
+                    // 2. Use setTimeout to allow initial styles to apply before adding reading-mode
+                    setTimeout(() => {
+                        body.classList.add('reading-active'); // Apply body styles (hides others)
+                        activePost.classList.add('reading-mode'); // Apply reading styles (triggers transition)
+                        backButton.classList.remove('hidden'); // Show back button
+
+                        // 3. Reset inline styles so CSS class takes full control
+                        activePost.style.opacity = '';
+                        activePost.style.transform = '';
+
+                        window.scrollTo(0, 0); // Scroll reading view to top
+                    }, 20); // Small delay (20ms)
+                    // --- TRANSITION END ---
+
+                });
+            });
+
+            // --- Back Button Functionality ---
+            if (backButton) {
+                backButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    if (activePost) {
+                        activePost.classList.remove('reading-mode'); // Remove reading styles from post
+                        body.classList.remove('reading-active'); // Remove body styles
+                        backButton.classList.add('hidden'); // Hide back button
+
+                        // Restore scroll position smoothly
+                        window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+
+                        activePost = null; // Clear active post reference
+                    }
+                });
+            }
+            // --- End Back Button ---
+
+        });
+    </script>
+</body>
+</html>

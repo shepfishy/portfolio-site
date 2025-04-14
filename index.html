@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shepfish - Portfolio</title>
+    <!-- Using Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            /* Light mode */
+            --bg-light: #f8f9fa;
+            --text-light: #212529;
+            --primary-light: #6d5dd1; /* A slightly different purple */
+            --secondary-light: #a095e5;
+            --accent-light: #ff7b72;
+            --card-bg-light: rgba(255, 255, 255, 0.7);
+            --card-border-light: rgba(0, 0, 0, 0.1);
+            --sidebar-bg-light: rgba(240, 240, 245, 0.8);
+            --shadow-light: rgba(0, 0, 0, 0.1);
+
+            /* Dark mode */
+            --bg-dark: #1a1b26; /* Tokyo Night background */
+            --text-dark: #a9b1d6; /* Tokyo Night foreground */
+            --primary-dark: #bb9af7; /* Tokyo Night purple */
+            --secondary-dark: #7aa2f7; /* Tokyo Night blue */
+            --accent-dark: #ff7b72; /* Keep accent consistent */
+            --card-bg-dark: rgba(36, 40, 59, 0.7); /* Tokyo Night darker bg, semi-transparent */
+            --card-border-dark: rgba(255, 255, 255, 0.1);
+            --sidebar-bg-dark: rgba(26, 27, 38, 0.85); /* Darker sidebar */
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+
+            /* Default to dark mode */
+            --bg: var(--bg-dark);
+            --text: var(--text-dark);
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --card-bg: var(--card-bg-dark);
+            --card-border: var(--card-border-dark);
+            --sidebar-bg: var(--sidebar-bg-dark);
+            --shadow: var(--shadow-dark);
+
+            --sidebar-width: 250px;
+            --transition-speed: 0.4s;
+            --border-radius: 12px;
+        }
+
+        .light-mode {
+            --bg: var(--bg-light);
+            --text: var(--text-light);
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --card-bg: var(--card-bg-light);
+            --card-border: var(--card-border-light);
+            --sidebar-bg: var(--sidebar-bg-light);
+            --shadow: var(--shadow-light);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            display: flex;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--sidebar-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            z-index: 100;
+        }
+
+        .sidebar-buttons {
+            display: flex; /* Arrange buttons horizontally */
+            align-items: center; /* Vertically align items */
+            gap: 0.8rem; /* Add space between buttons */
+            margin-top: 2rem; /* Space above the buttons */
+            justify-content: center; /* Center buttons if sidebar is narrow */
+            width: 100%; /* Take full width to allow centering */
+        }
+
+        /* Style for the new blog button (and potentially theme toggle if desired) */
+        .sidebar-icon-button {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.7rem;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+            width: 50px; /* Match theme toggle size */
+            height: 50px; /* Match theme toggle size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none; /* Remove underline from link */
+        }
+
+        .sidebar-icon-button:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.1); /* Simple scale hover */
+            border-color: var(--primary);
+        }
+
+        /* Adjust theme toggle margin if needed now that it's in a flex container */
+        #theme-toggle {
+            margin-top: 0; /* Remove top margin */
+            margin-left: 0; /* Remove left margin */
+        }
+
+        /* ... rest of styles ... */
+
+        /* Adjustments for smaller screens if necessary */
+        @media (max-width: 768px) {
+            /* ... existing responsive styles ... */
+            .sidebar-buttons {
+                margin-top: 0; /* Remove top margin in horizontal layout */
+                gap: 1rem; /* Adjust gap */
+            }
+            /* ... */
+        }
+
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            width: 100%;
+            margin-bottom: auto; /* Pushes theme toggle down */
+        }
+
+        .nav-links li {
+            margin-bottom: 1rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+        }
+
+        .nav-links a i {
+            margin-right: 0.8rem;
+            width: 20px; /* Align icons */
+            text-align: center;
+            color: var(--secondary);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: var(--primary);
+            color: white; /* Ensure text is readable on primary bg */
+            transform: translateX(5px);
+        }
+
+        .nav-links a:hover i,
+        .nav-links a.active i {
+            color: white;
+        }
+
+        #theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.7rem;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+            margin-top: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: rotate(15deg) scale(1.1);
+            border-color: var(--primary);
+        }
+
+        /* Main Content Area */
+        #main-content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem;
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+        }
+
+        section {
+            min-height: 80vh; /* Give sections some space */
+            margin-bottom: 4rem;
+            padding-top: 3rem; /* Offset for potential fixed header if added later */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        #hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: calc(100vh - 6rem); /* Adjust based on padding */
+            margin-bottom: 0; /* No margin for the first section */
+        }
+
+        .hero-content h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            min-height: 2.5rem; /* Prevent layout shift during typing */
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .highlight {
+            color: var(--primary);
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 2rem; /* Match h2 font size */
+            background-color: var(--secondary);
+            animation: blink 0.7s infinite;
+            margin-left: 5px;
+            vertical-align: bottom;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            margin-right: 1rem;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .about-image {
+            flex-basis: 300px; /* Fixed width for the image container */
+            flex-shrink: 0;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 3px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+
+        .about-text {
+            flex-grow: 1;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-badge {
+            background: var(--card-bg);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .tech-badge:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 2rem 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 25px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+         .skill-card:hover .skill-icon {
+             transform: scale(1.1);
+         }
+
+        .skill-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem; /* Reduced margin */
+        }
+
+        /* C++ Icon Specific Style */
+        .skill-icon svg {
+             width: 3rem;
+             height: 3rem;
+             fill: var(--primary); /* Use CSS variable for fill */
+             transition: transform 0.3s ease;
+        }
+        .skill-card:hover .skill-icon svg {
+             transform: scale(1.1);
+        }
+
+        /* Projects Section */
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .project-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the area, might crop */
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1));
+            display: flex;
+            align-items: flex-end; /* Align links to bottom */
+            justify-content: flex-start; /* Align links to left */
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            padding: 1rem;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            transform: translateY(20px);
+            transition: transform 0.4s ease 0.1s; /* Delay link appearance */
+        }
+
+        .project-card:hover .project-links {
+             transform: translateY(0);
+        }
+
+        .project-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .project-link:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+            flex-grow: 1; /* Allow info to take remaining space */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .project-info p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            font-size: 0.95rem;
+            flex-grow: 1; /* Push tags down */
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto; /* Push tags to bottom */
+        }
+
+        .project-tags span {
+            background: var(--bg); /* Use main bg for contrast */
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+            border: 1px solid var(--card-border);
+            font-weight: 500;
+        }
+
+        /* Footer/End section */
+        #contact { /* Simple contact/footer area */
+             text-align: center;
+             padding: 4rem 0 2rem 0;
+             margin-bottom: 0;
+             min-height: auto; /* Override default min-height */
+        }
+
+        .social-links-footer {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link-footer:hover {
+            background-color: var(--primary);
+            color: #fff;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 15px var(--shadow);
+        }
+
+        #contact p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            :root {
+                --sidebar-width: 200px;
+            }
+            #main-content {
+                margin-left: var(--sidebar-width);
+                width: calc(100% - var(--sidebar-width));
+                padding: 2rem;
+            }
+            .section-title {
+                font-size: 2.4rem;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+             .hero-content h2 {
+                font-size: 1.6rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            .about-image {
+                max-width: 350px; /* Limit image size on smaller screens */
+                margin: 0 auto 2rem auto; /* Center image when stacked */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            :root {
+                --sidebar-width: 100%; /* Full width for top bar */
+            }
+            #sidebar {
+                width: 100%;
+                height: auto; /* Auto height */
+                position: fixed; /* Change to fixed top bar */
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 0.8rem 1.5rem;
+                border-right: none;
+                border-bottom: 1px solid var(--card-border);
+                align-items: center;
+            }
+            .logo {
+                margin-bottom: 0;
+                font-size: 1.5rem;
+            }
+            .nav-links {
+                display: none; /* Hide sidebar links, could implement a burger menu if needed */
+                margin-bottom: 0;
+            }
+            #theme-toggle {
+                margin-top: 0;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            #main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 6rem 1.5rem 2rem 1.5rem; /* Add top padding to clear fixed sidebar */
+            }
+            section {
+                padding-top: 1rem;
+                min-height: auto; /* Allow sections to be shorter */
+                margin-bottom: 3rem;
+            }
+             .section-title {
+                font-size: 2rem;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+             .hero-content h2 {
+                font-size: 1.4rem;
+            }
+            .skills-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+            .projects-container {
+                grid-template-columns: 1fr; /* Stack projects */
+                gap: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+        <div class="logo">shepfish</div>
+        <ul class="nav-links">
+            <li><a href="#hero" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+            <li><a href="#skills"><i class="fas fa-laptop-code"></i> Skills</a></li>
+            <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="sidebar-buttons"> <!-- Added a container for buttons -->
+            <button id="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-moon"></i> <!-- Initial icon -->
+            </button>
+            <a href="blog/" id="blog-button" class="sidebar-icon-button" aria-label="Go to Blog">
+                <i class="fas fa-blog"></i> <!-- Blog icon -->
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Hi, I'm <span class="highlight">shepfish</span></h1>
+                <h2><span id="typing-subtitle"></span><span class="typing-cursor"></span></h2>
+                <p>A slightly autistic (chronically online) linux user! <br>Welcome to my Litterbox.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="https://github.com/shepfishy" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <!-- Make sure 'assets/sheppy.jpg' path is correct -->
+                    <img src="assets/sheppy.jpg" alt="A picture of shepfish">
+                </div>
+                <div class="about-text">
+                    <p>I'm a beginner programmer learning new skills. I enjoy tinkering with Linux systems and exploring different technologies.</p>
+                    <p>Currently focusing on improving my skills and learning C++. I have experience with web development fundamentals and enjoy building small projects.</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">HTML5</span>
+                        <span class="tech-badge">CSS3</span>
+                        <span class="tech-badge">JavaScript</span>
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">C++ (Learning)</span>
+                        <span class="tech-badge">Linux</span>
+                    </div>
+                    <!-- <a href="#" class="btn btn-primary" style="margin-top: 1.5rem;">Resume (Coming Soon)</a> -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-container">
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                    <h3>HTML5</h3>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
+                    <h3>CSS3</h3>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-js"></i></div>
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-python"></i></div>
+                    <h3>Python</h3>
+                </div>
+                 <div class="skill-card">
+                    <div class="skill-icon">
+                        <!-- Embedded SVG for C++ -->
+                         <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#00599c" d="M118.766 95.82c.89-1.543 1.441-3.28 1.441-4.843V36.78c0-1.558-.55-3.297-1.441-4.84l-55.32 31.94Zm0 0"/>
+                            <path fill="#004482" d="m68.36 126.586 46.933-27.094c1.352-.781 2.582-2.129 3.473-3.672l-55.32-31.94L8.12 95.82c.89 1.543 2.121 2.89 3.473 3.672l46.933 27.094c2.703 1.562 7.13 1.562 9.832 0Zm0 0"/>
+                            <path fill="#659ad2" d="M118.766 31.941c-.891-1.546-2.121-2.894-3.473-3.671L68.359 1.172c-2.703-1.563-7.129-1.563-9.832 0L11.594 28.27C8.89 29.828 6.68 33.66 6.68 36.78v54.196c0 1.562.55 3.3 1.441 4.843L63.445 63.88Zm0 0"/>
+                            <path fill="var(--text)" d="M63.445 26.035c-20.867 0-37.843 16.977-37.843 37.844s16.976 37.844 37.843 37.844c13.465 0 26.024-7.247 32.77-18.91L79.84 73.335c-3.38 5.84-9.66 9.465-16.395 9.465-10.433 0-18.922-8.488-18.922-18.922 0-10.434 8.49-18.922 18.922-18.922 6.73 0 13.017 3.629 16.39 9.465l16.38-9.477c-6.75-11.664-19.305-18.91-32.77-18.91zM92.88 57.57v4.207h-4.207v4.203h4.207v4.207h4.203V65.98h4.203v-4.203h-4.203V57.57H92.88zm15.766 0v4.207h-4.204v4.203h4.204v4.207h4.207V65.98h4.203v-4.203h-4.203V57.57h-4.207z"/>
+                          </svg>
+                    </div>
+                    <h3>C++</h3>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-linux"></i></div>
+                    <h3>Linux</h3>
+                </div>
+                 <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                    <h3>Git</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-container">
+                <!-- Project 1: This Website -->
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <!-- Make sure 'assets/gooferr.png' path is correct -->
+                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/shepfishy/shepfishy.github.io" target="_blank" rel="noopener noreferrer" class="project-link" title="View Source Code"><i class="fab fa-github"></i></a>
+                                <!-- No live link for the portfolio itself -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Portfolio Website</h3>
+                        <p>The very website you are currently viewing. Built with HTML, CSS, and vanilla JavaScript.</p>
+                        <div class="project-tags">
+                            <span>HTML</span><span>CSS</span><span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Minecraft Server Manager -->
+                <div class="project-card" data-category="desktop">
+                    <div class="project-image">
+                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                         <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/shepfishy/Minecraft-Server-Manager" target="_blank" rel="noopener noreferrer" class="project-link" title="View Source Code"><i class="fab fa-github"></i></a>
+                                <!-- Add live link if available -->
+                                <!-- <a href="#" target="_blank" rel="noopener noreferrer" class="project-link" title="Live Demo"><i class="fas fa-external-link-alt"></i></a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Minecraft Server Manager</h3>
+                        <p>A simple Qt5 application for managing local Minecraft servers on Windows and Linux.</p>
+                        <div class="project-tags">
+                            <span>Python</span><span>Qt5</span><span>Desktop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: NAPbypass Contribution -->
+                <div class="project-card" data-category="contribution">
+                    <div class="project-image">
+                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                         <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Thecoolcookie99/napbypass.github.io" target="_blank" rel="noopener noreferrer" class="project-link" title="View Repository"><i class="fab fa-github"></i></a>
+                                <a href="https://thecoolcookie99.github.io/napbypass.github.io/" target="_blank" rel="noopener noreferrer" class="project-link" title="Visit Site"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>NAPbypass (Contributor)</h3>
+                        <p>Contributed to a collection of bypasses for the NAPLAN assessment browser.</p>
+                        <div class="project-tags">
+                            <span>Contribution</span><span>Web</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Add more projects similarly -->
+                 <!-- Example:
+                 <div class="project-card" data-category="scripting">
+                    <div class="project-image">
+                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                         <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="[GITHUB_LINK]" target="_blank" rel="noopener noreferrer" class="project-link" title="View Source Code"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>[Project Name]</h3>
+                        <p>[Brief Description]</p>
+                        <div class="project-tags">
+                            <span>[Tag1]</span><span>[Tag2]</span>
+                        </div>
+                    </div>
+                </div>
+                -->
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2 class="section-title">Get In Touch</h2>
+            <div style="max-width: 650px; margin: 0 auto 3rem auto; text-align: center;">
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem; opacity: 0.9;">
+                    Hai! I am usually available for a conversation,<br> if you're looking for one please contact me on any of the platforms below.
+                    <br> I can collaborate on projects or just chat about computeres lel.
+                </p>
+                <p style="font-size: 1rem; opacity: 0.8;">
+                    The best ways to reach me are through Discord or Email. <br> Feel free to connect with me on other platforms as well!
+                </p>
+                <!-- Optional: Add direct email link -->
+                <p style="margin-top: 1.5rem;">
+                    <a href="mailto:your-email@example.com" class="btn btn-outline" style="font-size: 0.9rem;"><i class="fas fa-envelope" style="margin-right: 8px;"></i> Send me an Email</a>
+                    <!-- Replace your-email@example.com with your actual email -->
+                </p>
+            </div>
+
+            <p style="text-align: center; font-weight: 600; margin-bottom: 1.5rem; color: var(--secondary);">Connect with me:</p>
+            <div class="social-links-footer" style="margin-bottom: 3rem;">
+                <a href="https://github.com/shepfishy" target="_blank" rel="noopener noreferrer" class="social-link-footer" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://discord.com/users/shepfish" target="_blank" rel="noopener noreferrer" class="social-link-footer" title="Discord (shepfish)"><i class="fab fa-discord"></i></a>
+                <a href="https://australi.us" target="_blank" rel="noopener noreferrer" class="social-link-footer" title="Personal Website (australi.us)"><i class="fas fa-globe"></i></a>
+            </div>
+            <p><br><br><br><br><br><br></p>
+       </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body; // Target body for class toggle
+            const themeIcon = themeToggle.querySelector('i');
+            const currentYearSpan = document.getElementById('current-year');
+
+            // --- Theme Toggling ---
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.classList.add('light-mode');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    body.classList.remove('light-mode');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            };
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+            applyTheme(savedTheme);
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                const newTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // --- Typing Animation ---
+            const typingElement = document.getElementById('typing-subtitle');
+            const words = ["Programmer", "Linux Enthusiast", "Beginner Coder", "Web Developer", "Tech Explorer", "Computer Nerd", "Computer Builder"];
+            let wordIndex = 0;
+            let letterIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentWord = words[wordIndex];
+                if (isDeleting) {
+                    // Remove characters
+                    typingElement.textContent = currentWord.substring(0, letterIndex - 1);
+                    letterIndex--;
+                } else {
+                    // Add characters
+                    typingElement.textContent = currentWord.substring(0, letterIndex + 1);
+                    letterIndex++;
+                }
+
+                let typeSpeed = isDeleting ? 75 : 150;
+
+                // If word is fully typed
+                if (!isDeleting && letterIndex === currentWord.length) {
+                    typeSpeed = 1500; // Pause at end
+                    isDeleting = true;
+                }
+                // If word is fully deleted
+                else if (isDeleting && letterIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    typeSpeed = 500; // Pause before typing next word
+                }
+
+                setTimeout(type, typeSpeed);
+            }
+            // Start typing animation
+            setTimeout(type, 500);
+
+
+            // --- Active Nav Link Highlighting & Smooth Scroll ---
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('section');
+
+            // Function for smooth scroll
+            const smoothScrollTo = (targetId) => {
+                 const targetElement = document.getElementById(targetId);
+                 if (targetElement) {
+                     // Calculate position considering potential fixed header/sidebar offset if needed
+                     const offsetTop = targetElement.offsetTop - 60; // Adjust 60 if you have a fixed header height
+                     window.scrollTo({
+                         top: offsetTop,
+                         behavior: 'smooth'
+                     });
+                 }
+            };
+
+            // Add click listeners for smooth scroll
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    smoothScrollTo(targetId);
+
+                    // For mobile: close menu if implemented
+                    // hamburger.classList.remove('active');
+                    // navMenu.classList.remove('active');
+                });
+            });
+
+
+            // Highlight active link on scroll
+            const highlightNav = () => {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Adjust threshold: activate slightly before the section top hits the viewport top
+                    if (pageYOffset >= sectionTop - sectionHeight / 3) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+                 // Ensure 'Home' is active when at the very top
+                if (window.pageYOffset < sections[0].offsetTop - window.innerHeight / 2) {
+                     navLinks.forEach(link => link.classList.remove('active'));
+                     document.querySelector('.nav-links a[href="#hero"]').classList.add('active');
+                }
+            };
+
+            window.addEventListener('scroll', highlightNav);
+            highlightNav(); // Initial check
+
+
+            // --- Intersection Observer for Section Fade-in ---
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // --- Update Copyright Year ---
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+        });
+    </script>
+</body>
+</html>
