@@ -231,6 +231,13 @@
             padding: 3rem;
             width: calc(100% - var(--sidebar-width));
             min-height: 100vh;
+            /* --- Background Image Added --- */
+            background-image: url('assets/testing.webp'); /* Replace with your image path */
+            background-size: cover; /* Scale the image to cover the entire area */
+            background-position: center center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep the background fixed during scroll */
+            /* --- End Background Image --- */
         }
 
         section {
@@ -650,9 +657,9 @@
                 --sidebar-width: 200px;
             }
             #main-content {
-                margin-left: var(--sidebar-width);
-                width: calc(100% - var(--sidebar-width));
-                padding: 2rem;
+                margin-left: 0;
+                width: 100%;
+                padding: 6rem 1.5rem 2rem 1.5rem;
             }
             .section-title {
                 font-size: 2.4rem;
