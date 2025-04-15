@@ -10,16 +10,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
         :root {
-            /* Light mode */
-            --bg-light: #f8f9fa;
-            --text-light: #212529;
-            --primary-light: #6d5dd1; /* A slightly different purple */
-            --secondary-light: #a095e5;
-            --accent-light: #ff7b72;
-            --card-bg-light: rgba(255, 255, 255, 0.7);
-            --card-border-light: rgba(0, 0, 0, 0.1);
-            --sidebar-bg-light: rgba(240, 240, 245, 0.8);
-            --shadow-light: rgba(0, 0, 0, 0.1);
 
             /* Dark mode */
             --bg-dark: #1a1b26; /* Tokyo Night background */
@@ -48,18 +38,6 @@
             --border-radius: 12px;
         }
 
-        .light-mode {
-            --bg: var(--bg-light);
-            --text: var(--text-light);
-            --primary: var(--primary-light);
-            --secondary: var(--secondary-light);
-            --accent: var(--accent-light);
-            --card-bg: var(--card-bg-light);
-            --card-border: var(--card-border-light);
-            --sidebar-bg: var(--sidebar-bg-light);
-            --shadow: var(--shadow-light);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -75,7 +53,6 @@
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.7;
-            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
             display: flex;
         }
 
@@ -94,7 +71,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
             z-index: 100;
         }
 
@@ -132,22 +108,44 @@
             border-color: var(--primary);
         }
 
-        /* Adjust theme toggle margin if needed now that it's in a flex container */
-        #theme-toggle {
-            margin-top: 0; /* Remove top margin */
-            margin-left: 0; /* Remove left margin */
+        .sidebar-social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem; /* Slightly smaller gap for sidebar */
+            margin-top: 2rem; /* Space above the links */
+            width: 100%;
         }
 
-        /* ... rest of styles ... */
+        .sidebar-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; /* Slightly smaller */
+            height: 40px; /* Slightly smaller */
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 1.1rem; /* Slightly smaller */
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .sidebar-social-link:hover {
+            background-color: var(--primary);
+            color: #fff;
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 10px var(--shadow);
+        }
 
         /* Adjustments for smaller screens if necessary */
         @media (max-width: 768px) {
-            /* ... existing responsive styles ... */
-            .sidebar-buttons {
-                margin-top: 0; /* Remove top margin in horizontal layout */
-                gap: 1rem; /* Adjust gap */
+            #sidebar {
+                justify-content: space-between;
             }
-            /* ... */
+            .sidebar-social-links {
+                display: none;
+            }
         }
 
 
@@ -753,10 +751,10 @@
             <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
             <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
-        <div class="sidebar-buttons"> <!-- Added a container for buttons -->
-            <button id="theme-toggle" aria-label="Toggle dark/light mode">
-                <i class="fas fa-moon"></i> <!-- Initial icon -->
-            </button>
+        <div class="sidebar-social-links">
+            <a href="https://github.com/shepfishy" target="_blank" rel="noopener noreferrer" class="sidebar-social-link" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://discord.com/users/shepfish" target="_blank" rel="noopener noreferrer" class="sidebar-social-link" title="Discord (shepfish)"><i class="fab fa-discord"></i></a>
+            <a href="https://australi.us" target="_blank" rel="noopener noreferrer" class="sidebar-social-link" title="Personal Website (australi.us)"><i class="fas fa-globe"></i></a>
         </div>
     </aside>
 
@@ -776,6 +774,7 @@
                 </div>
             </div>
         </section>
+        
 
         <!-- About Section -->
         <section id="about">
@@ -852,7 +851,7 @@
                 <div class="project-card" data-category="web">
                     <div class="project-image">
                         <!-- Make sure 'assets/gooferr.png' path is correct -->
-                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                        <img src="assets/testing.webp" alt="Placeholder project image">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/shepfishy/shepfishy.github.io" target="_blank" rel="noopener noreferrer" class="project-link" title="View Source Code"><i class="fab fa-github"></i></a>
@@ -872,7 +871,7 @@
                 <!-- Project 2: Minecraft Server Manager -->
                 <div class="project-card" data-category="desktop">
                     <div class="project-image">
-                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                        <img src="assets/complete.svg" alt="Placeholder project image">
                          <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/shepfishy/Minecraft-Server-Manager" target="_blank" rel="noopener noreferrer" class="project-link" title="View Source Code"><i class="fab fa-github"></i></a>
@@ -893,7 +892,7 @@
                 <!-- Project 3: NAPbypass Contribution -->
                 <div class="project-card" data-category="contribution">
                     <div class="project-image">
-                        <img src="assets/gooferr.png" alt="Placeholder project image">
+                        <img src="assets/napbypass.svg" alt="Placeholder project image">
                          <div class="project-overlay">
                             <div class="project-links">
                                 <a href="https://github.com/Thecoolcookie99/napbypass.github.io" target="_blank" rel="noopener noreferrer" class="project-link" title="View Repository"><i class="fab fa-github"></i></a>
@@ -945,11 +944,6 @@
                 <p style="font-size: 1rem; opacity: 0.8;">
                     The best ways to reach me are through Discord or Email. <br> Feel free to connect with me on other platforms as well!
                 </p>
-                <!-- Optional: Add direct email link -->
-                <p style="margin-top: 1.5rem;">
-                    <a href="mailto:your-email@example.com" class="btn btn-outline" style="font-size: 0.9rem;"><i class="fas fa-envelope" style="margin-right: 8px;"></i> Send me an Email</a>
-                    <!-- Replace your-email@example.com with your actual email -->
-                </p>
             </div>
 
             <p style="text-align: center; font-weight: 600; margin-bottom: 1.5rem; color: var(--secondary);">Connect with me:</p>
@@ -958,41 +952,24 @@
                 <a href="https://discord.com/users/shepfish" target="_blank" rel="noopener noreferrer" class="social-link-footer" title="Discord (shepfish)"><i class="fab fa-discord"></i></a>
                 <a href="https://australi.us" target="_blank" rel="noopener noreferrer" class="social-link-footer" title="Personal Website (australi.us)"><i class="fas fa-globe"></i></a>
             </div>
-            <p><br><br><br><br><br><br></p>
+            <p><br><br><br><br><br><br><br><br><br><br><br></p>
        </section>
 
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body; // Target body for class toggle
-            const themeIcon = themeToggle.querySelector('i');
+            // REMOVED theme toggle related constants
+            // const themeToggle = document.getElementById('theme-toggle');
+            // const body = document.body;
+            // const themeIcon = themeToggle.querySelector('i');
             const currentYearSpan = document.getElementById('current-year');
 
-            // --- Theme Toggling ---
-            const applyTheme = (theme) => {
-                if (theme === 'light') {
-                    body.classList.add('light-mode');
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                } else {
-                    body.classList.remove('light-mode');
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                }
-            };
-
-            // Load saved theme
-            const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
-            applyTheme(savedTheme);
-
-            // Toggle theme on button click
-            themeToggle.addEventListener('click', () => {
-                const newTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
-                localStorage.setItem('theme', newTheme);
-                applyTheme(newTheme);
-            });
+            // --- REMOVED Theme Toggling ---
+            // const applyTheme = (theme) => { ... };
+            // const savedTheme = localStorage.getItem('theme') || 'dark';
+            // applyTheme(savedTheme);
+            // themeToggle.addEventListener('click', () => { ... });
 
             // --- Typing Animation ---
             const typingElement = document.getElementById('typing-subtitle');
