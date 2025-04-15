@@ -16,7 +16,7 @@
             --primary-light: #6d5dd1;
             --secondary-light: #a095e5;
             --accent-light: #ff7b72;
-            --card-bg-light: rgba(255, 255, 255, 0.8); /* Slightly more opaque for blog posts */
+            --card-bg-light: rgba(255, 255, 255, 0.8); /* Slightly darker cuz its blog post */
             --card-border-light: rgba(0, 0, 0, 0.1);
             --sidebar-bg-light: rgba(240, 240, 245, 0.8);
             --shadow-light: rgba(0, 0, 0, 0.1);
@@ -27,7 +27,7 @@
             --primary-dark: #bb9af7;
             --secondary-dark: #7aa2f7;
             --accent-dark: #ff7b72;
-            --card-bg-dark: rgba(36, 40, 59, 0.8); /* Slightly more opaque for blog posts */
+            --card-bg-dark: rgba(36, 40, 59, 0.8); /* Slightly darker cuz its blog post */
             --card-border-dark: rgba(255, 255, 255, 0.1);
             --sidebar-bg-dark: rgba(26, 27, 38, 0.85);
             --shadow-dark: rgba(0, 0, 0, 0.3);
@@ -77,25 +77,6 @@
             line-height: 1.7;
             transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
             display: flex;
-        }
-
-        /* Sidebar */
-        #sidebar {
-            width: var(--sidebar-width);
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: var(--sidebar-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-right: 1px solid var(--card-border);
-            padding: 2rem 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
-            z-index: 100;
         }
 
         .logo {
@@ -266,13 +247,6 @@
             border-radius: 2px;
         }
 
-                /* ... existing styles ... */
-
-        /* Remove previous expand/hidden logic if desired, or keep for non-JS fallback */
-        /* .markdown-content.expanded { ... } */
-        /* .markdown-content.expanded::after { ... } */
-        /* .blog-post a.read-more.hidden { ... } */
-
 
         /* Reading View Styles */
         .blog-post.reading-mode {
@@ -344,7 +318,6 @@
             display: none;
         }
 
-        /* Hide theme toggle when reading */
         body.reading-active #theme-toggle {
              display: none;
         }
@@ -441,10 +414,8 @@
                 --sidebar-width: 200px;
             }
             #main-content {
-                /* margin-left: 0; REMOVED */
                 width: 100%; /* Ensure width is full */
                 padding: 6rem 1.5rem 2rem 1.5rem; /* Adjust top padding if you add a fixed header later */
-                /* Or simply: padding: 2rem 1.5rem; if no fixed header */
             }
             .page-title {
                 font-size: 2.4rem;
@@ -474,7 +445,7 @@
                 font-size: 1.5rem;
             }
             .nav-links {
-                display: none; /* Hide sidebar links, could implement a burger menu if needed */
+                display: none;
                 margin-bottom: 0;
             }
             #theme-toggle {
@@ -486,7 +457,7 @@
             #main-content {
                 margin-left: 0;
                 width: 100%;
-                padding: 6rem 1.5rem 2rem 1.5rem; /* Add top padding to clear fixed sidebar */
+                padding: 6rem 1.5rem 2rem 1.5rem;
             }
             #blog-section {
                 padding-top: 1rem;
@@ -615,7 +586,7 @@ Flags:                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca c
                 </button>
 
                 <article class="blog-post">
-                    <h2><i class="fas fa-pen-fancy"></i> Welcome to the blog.</h2>
+                    <h2><i class="fas fa-pen-fancy"></i> Welcome to my blog.</h2>
                     <p class="post-meta">Date: Apr 12, 2025</p>
                     <div class="markdown-content">
 
