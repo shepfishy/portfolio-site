@@ -519,71 +519,93 @@
             <div class="blog-posts-container">
                 <!-- First Article -->
                 <article class="blog-post">
-                    <h2>Making my homelab.</h2>
+                    <h2><i class="fas fa-server"></i> Building My First Proper Homelab!</h2>
                     <p class="post-meta">Date: Apr 13, 2025</p>
                     <!-- Container for Markdown content -->
                     <div class="markdown-content">
-Im making my first proper homelab! I have been wanting to do this for a *long time*, it is great to finally find the inspiration to do it.
+I have been wanting to do this for a <em style="color: var(--accent); font-weight: 600;">long time</em>, it is great to finally find the inspiration to do it.
 
-I am going to use a **Lenovo Thinkcentre m72e with an i5-3470T and 8GB of ram**. I have an upgrade CPU but im waiting for a better heatsink to arrive because the old chrummy one doesn't even have a fan or a way to remove excess heat.
+<div class="specs-card" style="background: rgba(122, 162, 247, 0.1); border-radius: var(--border-radius); padding: 1.2rem; margin: 1.5rem 0; border-left: 4px solid var(--secondary);">
+    <h3 style="margin-top: 0; color: var(--secondary);"><i class="fas fa-microchip"></i> Current Hardware</h3>
+    <p>I am using a <strong>Lenovo Thinkcentre m72e with an i5-3470T and 8GB of ram</strong>. I have an upgrade CPU but I'm waiting for a better heatsink to arrive because the old chrummy one doesn't even have a fan or a way to remove excess heat.</p>
+    <p>The CPU I'm upgrading to is an <strong style="color: var(--primary);">i5-3750</strong>. This processor has a higher TDP and so will require a better heatsink to keep it cool.</p>
+</div>
 
-The CPU im upgrading to is an **i5-3750**. This processor has a higher TDP and so will require a better heatsink to keep it cool.
-
-# Current CPU
+## <i class="fas fa-microchip"></i> Current CPU
 
 ![Current CPU](../assets/3470t.jpg)
 
-The plan is to install debian linux, setup cockpit and some docker containers to run some services. I have some random old hard drives that I will use for storage.
+<div class="plan-card" style="background: rgba(187, 154, 247, 0.1); border-radius: var(--border-radius); padding: 1.2rem; margin: 1.5rem 0; border-left: 4px solid var(--primary);">
+    <h3 style="margin-top: 0;"><i class="fas fa-tasks"></i> The Plan</h3>
+    <p>The plan is to install Debian Linux, setup Cockpit and some Docker containers to run various services. I have some random old hard drives that I will use for storage.</p>
+    
+<div class="progress-list" style="margin-top: 1rem;">
+    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+            <i class="fa-regular fa-square-check" style="color: var(--accent); margin-right: 0.5rem;"></i>
+            <span>Install Debian</span>
+        </div>
+        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+            <i class="fa-regular fa-square-check" style="color: var(--accent); margin-right: 0.5rem;"></i>
+            <span>Setup Cockpit</span>
+        </div>
+        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+            <i class="fa-regular fa-square" style="margin-right: 0.5rem;"></i>
+            <span>Expand storage</span>
+        </div>
+        <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+            <i class="fa-regular fa-square" style="margin-right: 0.5rem;"></i>
+            <span>Replace heatsink</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <i class="fa-regular fa-square" style="margin-right: 0.5rem;"></i>
+            <span>Replace CPU</span>
+        </div>
+    </div>
+</div>
 
-<i class="fa-regular fa-square-check"></i> Install debian
+## <i class="fas fa-laptop-code"></i> Current System Specs
 
-<i class="fa-regular fa-square-check"></i> Setup cockpit
-
-<i class="fa-regular fa-square"></i> Expand storage
-
-<i class="fa-regular fa-square"></i> Replace heatsink
-
-<i class="fa-regular fa-square"></i> Replace CPU
-
-# Current system specs:
-```
-shep@shepovo 
------------- 
-OS: Debian GNU/Linux 12 (bookworm) x86_64 
-Host: 3261J1M ThinkCentre M72e 
-Kernel: 6.1.0-33-amd64 
-Packages: 1304 (dpkg) 
-Shell: bash 5.2.15 
-CPU: Intel i5-3470T (4) @ 3.600GHz 
-GPU: Intel HD Graphics 
+<div class="code-block" style="background: rgba(36, 40, 59, 0.8); border-radius: var(--border-radius); padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; overflow-x: auto; color: #a9b1d6;">
+shep@shepovo<br>
+------------ <br>
+OS: Debian GNU/Linux 12 (bookworm) x86_64 <br>
+Host: 3261J1M ThinkCentre M72e <br>
+Kernel: 6.1.0-33-amd64 <br>
+Packages: 1304 (dpkg) <br>
+Shell: bash 5.2.15 <br>
+CPU: Intel i5-3470T (4) @ 3.600GHz <br>
+GPU: Intel HD Graphics <br>
 Memory: 7767MiB 
-```
+</div>
 
-# More cpu information
-```
-Architecture:             x86_64
-  CPU op-mode(s):         32-bit, 64-bit
-  Address sizes:          36 bits physical, 48 bits virtual
-  Byte Order:             Little Endian
-CPU(s):                   4
-  On-line CPU(s) list:    0-3
-Vendor ID:                GenuineIntel
-  Model name:             Intel(R) Core(TM) i5-3470T CPU @ 2.90GHz
-    CPU family:           6
-    Model:                58
-    Thread(s) per core:   2
-    Core(s) per socket:   2
-    Socket(s):            1
-    Stepping:             9
-    CPU(s) scaling MHz:   63%
-    CPU max MHz:          3600.0000
-    CPU min MHz:          1600.0000
-    BogoMIPS:             5786.83
-    Flags:                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc
-                           arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl smx est tm2 ssse3 cx16 xtpr pdcm pcid sse
-                          4_1 sse4_2 x2apic popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm cpuid_fault epb pti ssbd ibrs ibpb stibp fsgsbase smep erms xsaveopt dtherm
-                           ida arat pln pts md_clear flush_l1d
-```
+## <i class="fas fa-info-circle"></i> Detailed CPU Information
+
+<div class="code-block" style="background: rgba(36, 40, 59, 0.8); border-radius: var(--border-radius); padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; max-height: 300px; overflow-y: auto; color: #a9b1d6;">
+Architecture:             x86_64<br>
+CPU op-mode(s):         32-bit, 64-bit<br>
+Address sizes:          36 bits physical, 48 bits virtual<br>
+Byte Order:             Little Endian<br>
+CPU(s):                   4<br>
+On-line CPU(s) list:    0-3<br>
+Vendor ID:                GenuineIntel<br>
+Model name:             Intel(R) Core(TM) i5-3470T CPU @ 2.90GHz<br>
+CPU family:           6<br>
+Model:                58<br>
+Thread(s) per core:   2<br>
+Core(s) per socket:   2<br>
+Socket(s):            1<br>
+Stepping:             9<br>
+CPU(s) scaling MHz:   63%<br>
+CPU max MHz:          3600.0000<br>
+CPU min MHz:          1600.0000<br>
+BogoMIPS:             5786.83<br>
+Flags:                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36...
+</div>
+
+<div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(255, 123, 114, 0.1); border-radius: var(--border-radius);">
+    <i class="fas fa-tools" style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;"></i>
+    <p style="margin: 0;"><em>Stay tuned for updates as I continue building out my homelab!</em></p>
+</div>
 
                     </div>
                     <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
@@ -596,15 +618,19 @@ Vendor ID:                GenuineIntel
                     <h2>I made a blog!</h2>
                     <p class="post-meta">Date: Apr 12, 2025</p>
                     <div class="markdown-content">
-# Welcome to the blog!
+# <i class="fas fa-pen-fancy"></i> Welcome to the blog!
 
 Here I will be posting about my projects and things I am working on. A few projects will be sprinkled around.
 
-This page alone has **700+ lines of code**, and I'm not even done yet!
+<div style="background: rgba(var(--primary), 0.1); border-left: 4px solid var(--accent); padding: 1rem; margin: 1.5rem 0; border-radius: 0.5rem;">
+    <i class="fas fa-code"></i> This page alone has **700+ lines of code**, and I'm not even done yet!
+</div>
 
-Programming has honestly been a blast and I'm straying away from relying on AI to make websites and it has been absolutely wonderful.
+Programming has honestly been a blast and I'm straying away from relying on AI</span> to make websites and it has been absolutely wonderful.
 
-I can't wait to post more of my projects, I'm actively working on my homelab and I will be posting about that soon.
+<hr style="border-color: var(--card-border); margin: 1.5rem 0;">
+
+<i class="fas fa-rocket"></i> I can't wait to post more of my projects, I'm actively working on my **homelab** and I will be posting about that soon.
                     </div>
                     <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                 </article>
