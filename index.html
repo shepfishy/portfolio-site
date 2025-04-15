@@ -46,6 +46,13 @@
 
         html {
             scroll-behavior: smooth;
+            /* Hide scrollbar for Firefox */
+            scrollbar-width: none;
+        }
+
+        /* Hide scrollbar for Chrome, Safari, Edge, Opera */
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         body {
@@ -54,6 +61,8 @@
             color: var(--text);
             line-height: 1.7;
             display: flex;
+            /* Ensure body allows scrolling if content overflows */
+            -ms-overflow-style: none;  /* IE and Edge */
         }
 
         /* Sidebar */
